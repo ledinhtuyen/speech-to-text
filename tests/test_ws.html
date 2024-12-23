@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebSocket Basic</title>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="message" />
+      <button type="button" onclick="sendMessage()">送信</button>
+    </div>
+    <ul id="message_list"></ul>
+
+    <script>
+      const socket = new WebSocket('ws://localhost:8000/ws');
+   
+      socket.addEventListener('message', (e) => {
+        if (typeof e.data === 'string') {
+          console.log(e.data);
+          const li = document.createElement('li');
+          li.textContent = e.data;
+          document.getElementById('message_list').appendChild(li);
+        }
+      });
+
+      const sendMessage = (e) => {
+        socket.send(document.getElementById('message').value);
+      };
+    </script>
+  </body>
+</html>
